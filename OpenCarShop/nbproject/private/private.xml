@@ -2,6 +2,10 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/alexandre/Desktop/Projects/ds3_projeto/OpenCarShop/src/opencarshop/funcionario/controller/FuncionarioController.java</file>
+            <file>file:/C:/Users/alexandre/Desktop/Projects/ds3_projeto/OpenCarShop/test/opencarshop/funcionario/controller/FuncionarioControllerTest.java</file>
+            <file>file:/C:/Users/alexandre/Desktop/Projects/ds3_projeto/OpenCarShop/src/opencarshop/funcionario/model/Funcionario.java</file>
+        </group>
     </open-files>
 </project-private>

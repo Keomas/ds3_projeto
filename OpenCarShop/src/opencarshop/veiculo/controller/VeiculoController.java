@@ -129,6 +129,7 @@ public class VeiculoController implements Initializable {
 
         VeiculoDAO veiculoDAO = new VeiculoDAO();
         List<Veiculo> listaVeiculo = veiculoDAO.getAllVeiculo();
+        System.out.println(listaVeiculo.size());
         ObservableList<Veiculo> observableListVeiculo;
 
         observableListVeiculo = FXCollections.observableArrayList(listaVeiculo);

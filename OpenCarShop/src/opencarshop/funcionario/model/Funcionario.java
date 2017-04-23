@@ -12,7 +12,28 @@ public class Funcionario {
     private String telefone1;
     private String telefone2;
     private Boolean ativo;
-
+    
+    
+    public Funcionario(){}
+    
+    public Funcionario(String cpf,
+                       String nome,
+                       String senha,
+                       LocalDate dataNascimento,
+                       String email,
+                       String telefone1,
+                       String telefone2,
+                       boolean ativo){
+        this.cpf = cpf;
+        this.nome = nome;
+        this.senha = senha;
+        this.dataNascimento = dataNascimento;
+        this.email = email;
+        this.telefone1 = telefone1;
+        this.telefone2 = telefone2;
+        this.ativo = ativo;
+    }
+    
     public Boolean getAtivo() {
         return ativo;
     }

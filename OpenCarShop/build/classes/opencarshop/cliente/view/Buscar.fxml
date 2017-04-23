@@ -29,7 +29,7 @@
         <Label layoutX="678.0" layoutY="134.0" text="Data de Nascimento:" />
         <CheckBox fx:id="cb_ativo" layoutX="674.0" layoutY="263.0" mnemonicParsing="false" text="Ativo" />
         <Button fx:id="btn_alterarCadastro" layoutX="782.0" layoutY="359.0" mnemonicParsing="false" onAction="#alterarCadastro" text="Salvar Alterações" />
-        <TextField fx:id="tf_cpfCadastro" editable="false" layoutX="675.0" layoutY="95.0" />
+        <TextField fx:id="tf_cpfCadastro" editable="true" layoutX="675.0" layoutY="95.0" />
         <Label layoutX="675.0" layoutY="78.0" text="CPF:" />
         <Label fx:id="confirmaAlteracao" alignment="CENTER" contentDisplay="CENTER" layoutX="736.0" layoutY="325.0" prefHeight="17.0" prefWidth="199.0" textAlignment="CENTER" />
     </children>

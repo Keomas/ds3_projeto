@@ -109,7 +109,7 @@ public class FuncionarioController implements Initializable {
     @FXML
     private TableView<Funcionario> tbl_funcionario;
     
-        @FXML
+    @FXML
     private CheckBox cb_ativo;
 
     @FXML
@@ -129,7 +129,7 @@ public class FuncionarioController implements Initializable {
         FuncionarioDAO func = new FuncionarioDAO();
         funcionario = func.getFuncionario(tf_cpf.getText());
         
-        if(funcionario.getCpf() != null)
+        if(funcionario.getCpf() != null || funcionario.getSenha() != null)
         {
             if(funcionario.getSenha().equals(pf_senha.getText()))
             {
@@ -164,7 +164,7 @@ public class FuncionarioController implements Initializable {
         }
         else
         {
-            labelErro.setText("Login ou senha errado!!!");
+            labelErro.setText("Os campos nao podem ser vazios");
         }
     }
     
@@ -216,7 +216,7 @@ public class FuncionarioController implements Initializable {
     
  @FXML
     private void alterarCadastro(ActionEvent event) throws Exception {
-        Funcionario  func    = new Funcionario();
+        Funcionario  func = new Funcionario();
         func.setCpf(tf_cpfCadastro.getText());
         func.setNome(tf_nomeCadastro.getText());
         func.setSenha(pf_senhaCadastro.getText());
@@ -276,6 +276,25 @@ try {
             //Logger.getLogger(FuncionarioController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+    }
+    
+    public boolean validarFuncionario(Funcionario funcionario){
+        if(funcionario == null){
+            return false;
+        }
+        if(funcionario.getNome().equals("")){
+            return false;
+        }
+        if(funcionario.getSenha().equals("")){
+            return false;
+        }
+        if(funcionario.getDataNascimento().getYear() < 1998){
+            return false;
+        }
+        if(!funcionario.getEmail().contains("@") || !funcionario.getEmail().contains(".com")){
+            return false;
+        }
+        return true;
     }
     
 }
