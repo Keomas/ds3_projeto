@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -176,41 +178,42 @@ public class FuncionarioController implements Initializable {
         Contrato     contr   = new Contrato();
         FuncionarioDAO f     = new FuncionarioDAO();
         Utilidades u = new Utilidades();
-      
-        // OBJETO FUNCIONARIO
-        func.setCpf(tf_cpfCadastro.getText());
-        func.setNome(tf_nomeCadastro.getText());
-        func.setSenha(pf_senhaCadastro.getText());
-        func.setDataNascimento(dp_dataNascimentoCadastro.getValue());
-        func.setDataNascimento(dp_dataNascimentoCadastro.getValue());
-        func.setEmail(tf_emailCadastro.getText());
-        func.setTelefone1(tf_telefone1Cadastro.getText());
-        func.setTelefone2(tf_telefone2Cadastro.getText());
+        try{
+            // OBJETO FUNCIONARIO
+            func.setCpf(tf_cpfCadastro.getText());
+            func.setNome(tf_nomeCadastro.getText());
+            func.setSenha(pf_senhaCadastro.getText());
+            func.setDataNascimento(dp_dataNascimentoCadastro.getValue());
+            func.setDataNascimento(dp_dataNascimentoCadastro.getValue());
+            func.setEmail(tf_emailCadastro.getText());
+            func.setTelefone1(tf_telefone1Cadastro.getText());
+            func.setTelefone2(tf_telefone2Cadastro.getText());
+            this.validarFuncionario(func);
+            
+            // OBJETO ENDERECO
+            end.setCEP(tf_cepCadastro.getText());
+            end.setEstado(tf_estadoCadastro.getText());
+            end.setCidade(tf_cidadeCadastro.getText());
+            end.setBairro(tf_bairroCadastro.getText());
+            end.setRua(tf_ruaCadastro.getText());
+            end.setNumero(Integer.parseInt(tf_numeroCadastro.getText()));
+            end.setComplemento(tf_complementoCadastro.getText());
+            end.setTipo(cb_tipoCadastro.getValue().charAt(0));
 
-        // OBJETO ENDERECO
-        end.setCEP(tf_cepCadastro.getText());
-        end.setEstado(tf_estadoCadastro.getText());
-        end.setCidade(tf_cidadeCadastro.getText());
-        end.setBairro(tf_bairroCadastro.getText());
-        end.setRua(tf_ruaCadastro.getText());
-        end.setNumero(Integer.parseInt(tf_numeroCadastro.getText()));
-        end.setComplemento(tf_complementoCadastro.getText());
-        end.setTipo(cb_tipoCadastro.getValue().charAt(0));
+            // OBJETO CONTRATO
+            contr.setCargo( cb_cargoCadastro.getValue().charAt(0));
+            contr.setSalario(DecimalFormat.getInstance().parse(tf_salarioCadastro.getText()).doubleValue());
+            contr.setDataInicio(dp_dataInicioCadastro.getValue());
+            contr.setDataTermino(dp_dataTerminoCadastro.getValue());
+            if(f.cadastraFuncionario(func, end, contr)){
+                resultadoCadastro.setText("Cadastrado com sucesso!!");
+            }
+            else{
+                resultadoCadastro.setText("Erro ao cadastrar!! Tente novamente.");
+            }
 
-        // OBJETO CONTRATO
-        contr.setCargo( cb_cargoCadastro.getValue().charAt(0));
-        contr.setSalario(DecimalFormat.getInstance().parse(tf_salarioCadastro.getText()).doubleValue());
-        contr.setDataInicio(dp_dataInicioCadastro.getValue());
-        contr.setDataTermino(dp_dataTerminoCadastro.getValue());
-	
-        
-        if(f.cadastraFuncionario(func, end, contr))
-        {
-            resultadoCadastro.setText("Cadastrado com sucesso!!");
-        }
-        else
-        {
-            resultadoCadastro.setText("Erro ao cadastrar!! Tente novamente.");
+        }catch(Exception exception){
+            resultadoCadastro.setText(exception.getMessage());
         }
     }
     
@@ -278,21 +281,24 @@ try {
         
     }
     
-    public boolean validarFuncionario(Funcionario funcionario){
+    public boolean validarFuncionario(Funcionario funcionario) throws Exception{
         if(funcionario == null){
-            return false;
+            throw new Exception("Funcionario nulo");
         }
-        if(funcionario.getNome() != null || funcionario.getNome().equals("")){
-            return false;
+        if(funcionario.getNome() == null || funcionario.getNome().equals("")){
+             throw new Exception("Nome não pode ser vazio ou nulo");
         }
-        if(funcionario.getSenha() != null || funcionario.getSenha().equals("")){
-            return false;
+        if(funcionario.getSenha() == null || funcionario.getSenha().equals("")){
+             throw new Exception("Senha não pode ser vazia ou nula");
         }
-        if(funcionario.getDataNascimento() != null ||funcionario.getDataNascimento().getYear() > 1998){
-            return false;
+        if(funcionario.getDataNascimento() == null || 2017 - funcionario.getDataNascimento().getYear() < 18){
+             throw new Exception("Data de nascimento não pode ser vazia ou funcionario tem que ser maior que 18");
         }
-        if(funcionario.getEmail() != null || !funcionario.getEmail().contains("@") || !funcionario.getEmail().contains(".com")){
-            return false;
+        if(funcionario.getEmail() == null || funcionario.getEmail() == ""){
+             throw new Exception("Email não pode ser vazio");
+        }
+        if(!funcionario.getEmail().contains("@") || !funcionario.getEmail().contains(".com")){
+            throw new Exception("Email deve conter @ e .com");
         }
         return true;
     }

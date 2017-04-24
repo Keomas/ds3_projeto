@@ -55,53 +55,81 @@ public class FuncionarioControllerTest {
         Stage stage = null;
         Assert.assertTrue(true);
     }
-    
     @Test
-    public void testValidarFuncionario(){
-        Funcionario funcionario = null;
+    public void testValidarFuncionarioPassa() throws Exception{
+        Funcionario funcionario = this.criarFuncionario();
         boolean result = funcionarioController.validarFuncionario(funcionario);
-        assertFalse(result);
+        assertTrue(result);
+
+    }
+    @Test
+    public void testValidarFuncionarioNuloFalha() throws Exception{
+        try{
+            Funcionario funcionario = null;
+            funcionarioController.validarFuncionario(funcionario);
+        }
+        catch(Exception exception){
+            assertEquals(exception.getMessage(), "Funcionario nulo");
+        }
     }
     
     @Test
-    public void testValidarFuncionarioNomeVazio(){
-        this.funcionario = this.criarFuncionario();
-        this.funcionario.setNome("");
-        boolean result = funcionarioController.validarFuncionario(this.funcionario);
-        assertFalse(result);
+    public void testValidarFuncionarioNomeVazioFalha() throws Exception{
+        try{
+            this.funcionario = this.criarFuncionario();
+            this.funcionario.setNome("");
+            funcionarioController.validarFuncionario(this.funcionario);
+        }
+        catch(Exception exception){
+            assertEquals(exception.getMessage(), "Nome não pode ser vazio ou nulo");
+        }
     }
     
     @Test
-    public void testValidarFuncionarioSenhaVazia(){
-        this.funcionario = this.criarFuncionario();
-        this.funcionario.setSenha("");
-        boolean result = funcionarioController.validarFuncionario(this.funcionario);
-        assertFalse(result);
+    public void testValidarFuncionarioSenhaVaziaFalha() throws Exception{
+        try{
+            this.funcionario = this.criarFuncionario();
+            this.funcionario.setSenha("");
+            funcionarioController.validarFuncionario(this.funcionario);
+        }catch(Exception exception){
+            assertEquals(exception.getMessage(), "Senha não pode ser vazia ou nula");
+        }
     }
     
     @Test
-    public void testValidarFuncionarioEmailSemArroba(){
-        this.funcionario = this.criarFuncionario();
-        this.funcionario.setEmail("testeteste.com");
-        boolean result = funcionarioController.validarFuncionario(this.funcionario);
-        assertFalse(result);
+    public void testValidarFuncionarioEmailSemArrobaFalha() throws Exception{
+        try{
+            this.funcionario = this.criarFuncionario();
+            this.funcionario.setEmail("testeteste.com");
+            funcionarioController.validarFuncionario(this.funcionario);
+        }
+        catch(Exception exception){
+            assertEquals(exception.getMessage(), "Email deve conter @ e .com");
+        }
     }
     
     @Test
-    public void testValidarFuncionarioEmailSemCom(){
-        
-        this.funcionario = this.criarFuncionario();
-        this.funcionario.setEmail("teste@testecom");
-        boolean result = funcionarioController.validarFuncionario(this.funcionario);
-        assertFalse(result);
+    public void testValidarFuncionarioEmailSemComFalha() throws Exception{
+        try{
+            this.funcionario = this.criarFuncionario();
+            this.funcionario.setEmail("teste@testecom");
+            funcionarioController.validarFuncionario(this.funcionario);
+        }
+        catch(Exception exception){
+            assertEquals(exception.getMessage(), "Email deve conter @ e .com");
+        }
     }
     
     @Test
-    public void testValidarFuncionarioIdadeMenorQue18(){
-        this.funcionario = this.criarFuncionario();
-        this.funcionario.setDataNascimento(LocalDate.parse("2000-01-10"));
-        boolean result = funcionarioController.validarFuncionario(this.funcionario);
-        assertFalse(result);
+    public void testValidarFuncionarioIdadeMenorQue18Falha() throws Exception{
+        try{
+            this.funcionario = this.criarFuncionario();
+            this.funcionario.setDataNascimento(LocalDate.parse("2000-01-10"));
+            funcionarioController.validarFuncionario(this.funcionario);
+        }
+        catch(Exception exception){
+            assertEquals(exception.getMessage(), "Data de nascimento não pode ser vazia ou funcionario tem que ser maior que 18");
+        }
     }
     
     private Funcionario criarFuncionario(){
