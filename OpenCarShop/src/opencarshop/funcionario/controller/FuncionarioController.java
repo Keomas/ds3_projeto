@@ -282,16 +282,16 @@ try {
         if(funcionario == null){
             return false;
         }
-        if(funcionario.getNome().equals("")){
+        if(funcionario.getNome() != null || funcionario.getNome().equals("")){
             return false;
         }
-        if(funcionario.getSenha().equals("")){
+        if(funcionario.getSenha() != null || funcionario.getSenha().equals("")){
             return false;
         }
-        if(funcionario.getDataNascimento().getYear() < 1998){
+        if(funcionario.getDataNascimento() != null ||funcionario.getDataNascimento().getYear() > 1998){
             return false;
         }
-        if(!funcionario.getEmail().contains("@") || !funcionario.getEmail().contains(".com")){
+        if(funcionario.getEmail() != null || !funcionario.getEmail().contains("@") || !funcionario.getEmail().contains(".com")){
             return false;
         }
         return true;

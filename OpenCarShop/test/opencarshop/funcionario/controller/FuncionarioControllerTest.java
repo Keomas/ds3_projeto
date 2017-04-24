@@ -24,6 +24,7 @@ import static org.junit.Assert.*;
  */
 public class FuncionarioControllerTest {
     private FuncionarioController funcionarioController;
+    private Funcionario funcionario;
     
     public FuncionarioControllerTest() {
          funcionarioController = new FuncionarioController();
@@ -64,36 +65,42 @@ public class FuncionarioControllerTest {
     
     @Test
     public void testValidarFuncionarioNomeVazio(){
-        Funcionario funcionario = null;
-        funcionario = this.criarFuncionario();
-        funcionario.setNome("");
-        boolean result = funcionarioController.validarFuncionario(funcionario);
+        this.funcionario = this.criarFuncionario();
+        this.funcionario.setNome("");
+        boolean result = funcionarioController.validarFuncionario(this.funcionario);
         assertFalse(result);
     }
     
     @Test
     public void testValidarFuncionarioSenhaVazia(){
-        Funcionario funcionario = null;
-        funcionario = this.criarFuncionario();
-        funcionario.setSenha("");
-        boolean result = funcionarioController.validarFuncionario(funcionario);
+        this.funcionario = this.criarFuncionario();
+        this.funcionario.setSenha("");
+        boolean result = funcionarioController.validarFuncionario(this.funcionario);
         assertFalse(result);
     }
     
     @Test
-    public void testValidarFuncionarioEmailSem(){
-        Funcionario funcionario = null;
-        funcionario = this.criarFuncionario();
-        funcionario.setEmail("testeteste.com");
-        boolean result = funcionarioController.validarFuncionario(funcionario);
+    public void testValidarFuncionarioEmailSemArroba(){
+        this.funcionario = this.criarFuncionario();
+        this.funcionario.setEmail("testeteste.com");
+        boolean result = funcionarioController.validarFuncionario(this.funcionario);
         assertFalse(result);
     }
     
+    @Test
     public void testValidarFuncionarioEmailSemCom(){
-        Funcionario funcionario = null;
-        funcionario = this.criarFuncionario();
-        funcionario.setEmail("teste@teste.com");
-        boolean result = funcionarioController.validarFuncionario(funcionario);
+        
+        this.funcionario = this.criarFuncionario();
+        this.funcionario.setEmail("teste@testecom");
+        boolean result = funcionarioController.validarFuncionario(this.funcionario);
+        assertFalse(result);
+    }
+    
+    @Test
+    public void testValidarFuncionarioIdadeMenorQue18(){
+        this.funcionario = this.criarFuncionario();
+        this.funcionario.setDataNascimento(LocalDate.parse("2000-01-10"));
+        boolean result = funcionarioController.validarFuncionario(this.funcionario);
         assertFalse(result);
     }
     
@@ -101,7 +108,7 @@ public class FuncionarioControllerTest {
         return new Funcionario("123456",
                                "teste",
                                "senha",
-                               LocalDate.parse("2016-02-14"),
+                               LocalDate.parse("1995-02-14"),
                                "teste@teste.com",
                                "12345678",
                                "12345667",
