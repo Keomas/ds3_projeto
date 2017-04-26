@@ -9,6 +9,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.stage.Stage;
+import opencarshop.funcionario.model.Contrato;
 import opencarshop.funcionario.model.Funcionario;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -23,11 +24,12 @@ import static org.junit.Assert.*;
  * @author alexandre
  */
 public class FuncionarioControllerTest {
+    private Contrato contrato;
     private FuncionarioController funcionarioController;
     private Funcionario funcionario;
     
-    public FuncionarioControllerTest() {
-         funcionarioController = new FuncionarioController();
+    public FuncionarioControllerTest() {      
+        funcionarioController = new FuncionarioController();
     }
     
     @BeforeClass
@@ -57,7 +59,7 @@ public class FuncionarioControllerTest {
     }
     @Test
     public void testValidarFuncionarioPassa() throws Exception{
-        Funcionario funcionario = this.criarFuncionario();
+        Funcionario funcionario = criarFuncionario();
         boolean result = funcionarioController.validarFuncionario(funcionario);
         assertTrue(result);
 
@@ -74,34 +76,57 @@ public class FuncionarioControllerTest {
     }
     
     @Test
-    public void testValidarFuncionarioNomeVazioFalha() throws Exception{
+    public void testValidarFuncionarioCpfVazioFalha() throws Exception{
         try{
-            this.funcionario = this.criarFuncionario();
-            this.funcionario.setNome("");
-            funcionarioController.validarFuncionario(this.funcionario);
+            funcionario = criarFuncionario();
+            funcionario.setCpf("");
+            funcionarioController.validarFuncionario(funcionario);
         }
         catch(Exception exception){
-            assertEquals(exception.getMessage(), "Nome não pode ser vazio ou nulo");
+            assertEquals(exception.getMessage(), "CPF nao pode ser vazio ou nulo");
+        }
+    }
+    
+    @Test
+    public void testValidarFuncionarioNomeVazioFalha() throws Exception{
+        try{
+            funcionario = criarFuncionario();
+            funcionario.setNome("");
+            funcionarioController.validarFuncionario(funcionario);
+        }
+        catch(Exception exception){
+            assertEquals(exception.getMessage(), "Nome nao pode ser vazio ou nulo");
         }
     }
     
     @Test
     public void testValidarFuncionarioSenhaVaziaFalha() throws Exception{
         try{
-            this.funcionario = this.criarFuncionario();
-            this.funcionario.setSenha("");
-            funcionarioController.validarFuncionario(this.funcionario);
+            funcionario = criarFuncionario();
+            funcionario.setSenha("");
+            funcionarioController.validarFuncionario(funcionario);
         }catch(Exception exception){
-            assertEquals(exception.getMessage(), "Senha não pode ser vazia ou nula");
+            assertEquals(exception.getMessage(), "Senha nao pode ser vazia ou nula");
+        }
+    }
+    @Test
+    public void testValidarFuncionarioEmailVazioFalha() throws Exception{
+        try{
+            funcionario = criarFuncionario();
+            funcionario.setEmail("");
+            funcionarioController.validarFuncionario(funcionario);
+        }
+        catch(Exception exception){
+            assertEquals(exception.getMessage(), "Email nao pode ser vazio ou nulo");
         }
     }
     
     @Test
     public void testValidarFuncionarioEmailSemArrobaFalha() throws Exception{
         try{
-            this.funcionario = this.criarFuncionario();
-            this.funcionario.setEmail("testeteste.com");
-            funcionarioController.validarFuncionario(this.funcionario);
+            funcionario = criarFuncionario();
+            funcionario.setEmail("testeteste.com");
+            funcionarioController.validarFuncionario(funcionario);
         }
         catch(Exception exception){
             assertEquals(exception.getMessage(), "Email deve conter @ e .com");
@@ -111,9 +136,9 @@ public class FuncionarioControllerTest {
     @Test
     public void testValidarFuncionarioEmailSemComFalha() throws Exception{
         try{
-            this.funcionario = this.criarFuncionario();
-            this.funcionario.setEmail("teste@testecom");
-            funcionarioController.validarFuncionario(this.funcionario);
+            funcionario = criarFuncionario();
+            funcionario.setEmail("teste@testecom");
+            funcionarioController.validarFuncionario(funcionario);
         }
         catch(Exception exception){
             assertEquals(exception.getMessage(), "Email deve conter @ e .com");
@@ -123,12 +148,93 @@ public class FuncionarioControllerTest {
     @Test
     public void testValidarFuncionarioIdadeMenorQue18Falha() throws Exception{
         try{
-            this.funcionario = this.criarFuncionario();
-            this.funcionario.setDataNascimento(LocalDate.parse("2000-01-10"));
-            funcionarioController.validarFuncionario(this.funcionario);
+            funcionario = criarFuncionario();
+            funcionario.setDataNascimento(LocalDate.parse("2000-01-10"));
+            funcionarioController.validarFuncionario(funcionario);
         }
         catch(Exception exception){
-            assertEquals(exception.getMessage(), "Data de nascimento não pode ser vazia ou funcionario tem que ser maior que 18");
+            assertEquals(exception.getMessage(), "Data de nascimento nao pode ser vazia ou funcionario tem que ser maior que 18");
+        }
+    }
+    
+    
+    @Test
+    public void testValidarContratoPassa() throws Exception{
+        contrato = criarContrato();
+        boolean result = funcionarioController.validarContrato(contrato);
+        assertTrue(result);
+    }
+    
+    @Test
+    public void testValidarContratoNuloFalha() throws Exception{
+        try{
+            contrato = null;
+            funcionarioController.validarContrato(contrato);
+        }
+        catch(Exception exception){
+            assertEquals(exception.getMessage(), "Contrato nao pode ser nulo");
+        }
+    }
+    
+    @Test
+    public void testValidarContratoCargoVazio() throws Exception{
+        try{
+            contrato = criarContrato();
+            contrato.setCargo(null);
+            funcionarioController.validarContrato(contrato);
+        }
+        catch(Exception exception){
+            assertEquals(exception.getMessage(), "Cargo nao pode ser nulo ou vazio");
+        }
+    }
+    
+    @Test
+    public void testValidarContratoSalarioNegativoFalha() throws Exception{
+        try{
+            contrato = criarContrato();
+            contrato.setSalario(-50.00);
+            funcionarioController.validarContrato(contrato);
+        }
+        catch(Exception exception){
+            assertEquals(exception.getMessage(), "Salario nao pode ser menor ou igual a zero");
+        }
+    }
+    
+    @Test
+    public void testValidarContratoDataInicioNulaFalha() throws Exception{
+        try{
+            contrato = criarContrato();
+            contrato.setDataInicio(null);
+            funcionarioController.validarContrato(contrato);
+        }
+        catch(Exception exception){
+            assertEquals(exception.getMessage(), "Contrato deve ter data de inicio");
+        }
+    }
+    
+    @Test
+    public void testValidarContratoDataTerminoNulaFalha() throws Exception{
+        try{
+            contrato = criarContrato();
+            contrato.setDataTermino(null);
+            funcionarioController.validarContrato(contrato);
+        }
+        catch(Exception exception){
+            assertEquals(exception.getMessage(), "Contrato deve ter data de termino");
+        }
+    }
+    
+    
+    @Test
+    public void testValidarContratoDataInicioMaiorQueDataTerminoFalha() throws Exception{
+        try{
+            contrato = criarContrato();
+            contrato.setDataInicio(LocalDate.parse("2017-01-15"));
+            contrato.setDataTermino(LocalDate.parse("1995-02-12"));
+            funcionarioController.validarContrato(contrato);
+        }
+        catch(Exception exception){
+            assertEquals(exception.getMessage(), "A data de término do contrato nao pode ser anterior a data de inicio do contrato");
         }
     }
     
@@ -141,6 +247,13 @@ public class FuncionarioControllerTest {
                                "12345678",
                                "12345667",
                                false);
+    }
+
+    private Contrato criarContrato(){
+        return new Contrato('c',
+                            400.00,
+                            LocalDate.parse("1995-02-14"),
+                            LocalDate.parse("2000-02-15"));
     }
     
 }

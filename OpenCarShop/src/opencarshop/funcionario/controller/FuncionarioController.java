@@ -188,7 +188,7 @@ public class FuncionarioController implements Initializable {
             func.setEmail(tf_emailCadastro.getText());
             func.setTelefone1(tf_telefone1Cadastro.getText());
             func.setTelefone2(tf_telefone2Cadastro.getText());
-            this.validarFuncionario(func);
+            validarFuncionario(func);
             
             // OBJETO ENDERECO
             end.setCEP(tf_cepCadastro.getText());
@@ -205,6 +205,8 @@ public class FuncionarioController implements Initializable {
             contr.setSalario(DecimalFormat.getInstance().parse(tf_salarioCadastro.getText()).doubleValue());
             contr.setDataInicio(dp_dataInicioCadastro.getValue());
             contr.setDataTermino(dp_dataTerminoCadastro.getValue());
+            validarContrato(contr);
+            
             if(f.cadastraFuncionario(func, end, contr)){
                 resultadoCadastro.setText("Cadastrado com sucesso!!");
             }
@@ -232,10 +234,10 @@ public class FuncionarioController implements Initializable {
         FuncionarioDAO f     = new FuncionarioDAO();
         if(f.alteraFuncionario(func))
         {
-            confirmaAlteracao.setText("Alteração realizada com sucesso!!");
+            confirmaAlteracao.setText("Alteraçao realizada com sucesso!!");
         }else
         {
-            confirmaAlteracao.setText("Erro ao realizar a alteração!!");
+            confirmaAlteracao.setText("Erro ao realizar a alteraçao!!");
         }
     }
    public void selecionarItemTablelaFuncionario(Funcionario funcionario){
@@ -285,17 +287,20 @@ try {
         if(funcionario == null){
             throw new Exception("Funcionario nulo");
         }
+        if(funcionario.getCpf() == null || funcionario.getCpf().equals("")){
+            throw new Exception("CPF nao pode ser vazio ou nulo");
+        }
         if(funcionario.getNome() == null || funcionario.getNome().equals("")){
-             throw new Exception("Nome não pode ser vazio ou nulo");
+             throw new Exception("Nome nao pode ser vazio ou nulo");
         }
         if(funcionario.getSenha() == null || funcionario.getSenha().equals("")){
-             throw new Exception("Senha não pode ser vazia ou nula");
+             throw new Exception("Senha nao pode ser vazia ou nula");
         }
         if(funcionario.getDataNascimento() == null || 2017 - funcionario.getDataNascimento().getYear() < 18){
-             throw new Exception("Data de nascimento não pode ser vazia ou funcionario tem que ser maior que 18");
+             throw new Exception("Data de nascimento nao pode ser vazia ou funcionario tem que ser maior que 18");
         }
         if(funcionario.getEmail() == null || funcionario.getEmail() == ""){
-             throw new Exception("Email não pode ser vazio");
+             throw new Exception("Email nao pode ser vazio ou nulo");
         }
         if(!funcionario.getEmail().contains("@") || !funcionario.getEmail().contains(".com")){
             throw new Exception("Email deve conter @ e .com");
@@ -303,4 +308,25 @@ try {
         return true;
     }
     
+    public boolean validarContrato(Contrato contrato) throws Exception{
+        if(contrato == null){
+            throw new Exception("Contrato nao pode ser nulo");
+        }
+        if(contrato.getCargo() == null || contrato.getCargo() == ' '){
+            throw new Exception("Cargo nao pode ser nulo ou vazio");
+        }
+        if(contrato.getSalario() <= 0){
+            throw new Exception("Salario nao pode ser menor ou igual a zero");
+        }
+        if(contrato.getDataInicio() == null){
+            throw new Exception("Contrato deve ter data de inicio");
+        }
+        if(contrato.getDataTermino() == null){
+            throw new Exception("Contrato deve ter data de termino");
+        }
+        if(contrato.getDataInicio().isAfter(contrato.getDataTermino())){
+            throw new Exception("A data de término do contrato nao pode ser anterior a data de inicio do contrato");
+        }
+        return true;
+    }
 }
