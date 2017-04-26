@@ -145,6 +145,18 @@ public class FuncionarioControllerTest {
         }
     }
     
+    
+    @Test
+    public void testValidarFuncionarioDataNascimentoVazia() throws Exception{
+        try{
+            funcionario = criarFuncionario();
+            funcionario.setDataNascimento(null);
+            funcionarioController.validarFuncionario(funcionario);
+        }
+        catch(Exception exception){
+            assertEquals(exception.getMessage(), "Data de nascimento nao pode ser nula ou vazia");
+        }
+    }
     @Test
     public void testValidarFuncionarioIdadeMenorQue18Falha() throws Exception{
         try{
@@ -153,7 +165,7 @@ public class FuncionarioControllerTest {
             funcionarioController.validarFuncionario(funcionario);
         }
         catch(Exception exception){
-            assertEquals(exception.getMessage(), "Data de nascimento nao pode ser vazia ou funcionario tem que ser maior que 18");
+            assertEquals(exception.getMessage(), "Funcionario tem que ser maior que 18");
         }
     }
     

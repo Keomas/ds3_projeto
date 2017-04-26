@@ -296,8 +296,11 @@ try {
         if(funcionario.getSenha() == null || funcionario.getSenha().equals("")){
              throw new Exception("Senha nao pode ser vazia ou nula");
         }
-        if(funcionario.getDataNascimento() == null || 2017 - funcionario.getDataNascimento().getYear() < 18){
-             throw new Exception("Data de nascimento nao pode ser vazia ou funcionario tem que ser maior que 18");
+        if(funcionario.getDataNascimento() == null ){
+            throw new Exception("Data de nascimento nao pode ser nula ou vazia");
+        }
+        if(2017 - funcionario.getDataNascimento().getYear() < 18){
+             throw new Exception("Funcionario tem que ser maior que 18");
         }
         if(funcionario.getEmail() == null || funcionario.getEmail() == ""){
              throw new Exception("Email nao pode ser vazio ou nulo");
