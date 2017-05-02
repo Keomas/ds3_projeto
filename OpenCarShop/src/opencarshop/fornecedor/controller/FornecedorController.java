@@ -82,36 +82,42 @@ public class FornecedorController implements Initializable {
     private TableView<Fornecedor> tbl_fornecedor;
 
     @FXML
-    private void cadastrar(ActionEvent event) throws ParseException {
+    private void cadastrar(ActionEvent event) throws ParseException, Exception {
 
         Fornecedor fornecedor = new Fornecedor();
         Endereco end = new Endereco();
         FornecedorDAO f = new FornecedorDAO();
         Utilidades u = new Utilidades();
+        try{
+            // OBJETO FORNECEDOR
+            fornecedor.setCnpj(tf_cnpjCadastro.getText());
+            fornecedor.setRazaoSocial(tf_razaoCadastro.getText());
+            fornecedor.setEmail(tf_emailCadastro.getText());
+            fornecedor.setTelefone1(tf_telefone1Cadastro.getText());
+            fornecedor.setTelefone2(tf_telefone2Cadastro.getText());
+            fornecedor.setDescricao(tf_descricaoCadastro.getText());
+            fornecedor.setAtivo(true);
+            validarFornecedor(fornecedor);
+            // OBJETO ENDERECO
+            end.setCEP(tf_cepCadastro.getText());
+            end.setEstado(tf_estadoCadastro.getText());
+            end.setCidade(tf_cidadeCadastro.getText());
+            end.setBairro(tf_bairroCadastro.getText());
+            end.setRua(tf_ruaCadastro.getText());
+            end.setNumero(Integer.parseInt(tf_numeroCadastro.getText()));
+            end.setComplemento(tf_complementoCadastro.getText());
+            end.setTipo(cb_tipoCadastro.getValue().charAt(0));
+            validarEndereco(end);
+            
+            if (f.cadastraFornecedor(fornecedor, end)) {
+                resultadoCadastro.setText("Cadastrado com sucesso!!");
+            } else {
+                resultadoCadastro.setText("Erro ao cadastrar!! Tente novamente.");
+            }
 
-        // OBJETO FORNECEDOR
-        fornecedor.setCnpj(tf_cnpjCadastro.getText());
-        fornecedor.setRazaoSocial(tf_razaoCadastro.getText());
-        fornecedor.setEmail(tf_emailCadastro.getText());
-        fornecedor.setTelefone1(tf_telefone1Cadastro.getText());
-        fornecedor.setTelefone2(tf_telefone2Cadastro.getText());
-        fornecedor.setDescricao(tf_descricaoCadastro.getText());
-        fornecedor.setAtivo(true);
-        // OBJETO ENDERECO
-        end.setCEP(tf_cepCadastro.getText());
-        end.setEstado(tf_estadoCadastro.getText());
-        end.setCidade(tf_cidadeCadastro.getText());
-        end.setBairro(tf_bairroCadastro.getText());
-        end.setRua(tf_ruaCadastro.getText());
-        end.setNumero(Integer.parseInt(tf_numeroCadastro.getText()));
-        end.setComplemento(tf_complementoCadastro.getText());
-        end.setTipo(cb_tipoCadastro.getValue().charAt(0));
-
-        if (f.cadastraFornecedor(fornecedor, end)) {
-            resultadoCadastro.setText("Cadastrado com sucesso!!");
-        } else {
-            resultadoCadastro.setText("Erro ao cadastrar!! Tente novamente.");
-        }
+        }catch(Exception exception){
+            resultadoCadastro.setText(exception.getMessage());
+        }        
     }
 
     private void carregaTabelaFornecedor() throws Exception {
@@ -128,6 +134,60 @@ public class FornecedorController implements Initializable {
         observableListFornecedor = FXCollections.observableArrayList(listaFornecedor);
         tbl_fornecedor.setItems(observableListFornecedor);
     }
+    
+    public boolean validarFornecedor(Fornecedor fornecedor) throws Exception{
+        if(fornecedor == null ){
+            throw new Exception("Fornecedor nulo");
+        }
+        if(fornecedor.getCnpj() == null || fornecedor.getCnpj().equals("")){
+            throw new Exception("CNPJ nao pode ser vazio ou nulo");
+        }
+        if(fornecedor.getRazaoSocial() == null || fornecedor.getRazaoSocial().equals("")){
+             throw new Exception("A razão social não pode ser vazia ou nula");
+        }
+        if(fornecedor.getEmail() == null || fornecedor.getEmail() == ""){
+             throw new Exception("Email nao pode ser vazio ou nulo");
+        }
+        if(!fornecedor.getEmail().contains("@") || !fornecedor.getEmail().contains(".com")){
+            throw new Exception("Email deve conter @ e .com");
+        }
+        if(fornecedor.getTelefone1()== null || fornecedor.getTelefone1().equals("")){
+             throw new Exception("O telefone 1 não pode ser vazio");
+        }
+        if(fornecedor.getDescricao()== null || fornecedor.getDescricao().equals("")){
+             throw new Exception("A descrição não pode ser vazia");
+        }
+        return true;
+    }
+    
+     public boolean validarEndereco(Endereco endereco) throws Exception{
+        if(endereco == null){
+            throw new Exception("Endereco nulo");
+        }
+        if(endereco.getBairro()== null || endereco.getBairro().equals("")){
+            throw new Exception("Bairro não pode ser vazio ou nulo");
+        }
+        if(endereco.getCEP()== null || endereco.getCEP().equals("")){
+             throw new Exception("CEP não pode ser vazio ou nulo");
+        }
+        if(endereco.getCidade()== null || endereco.getCidade().equals("")){
+             throw new Exception("Cidade não pode ser vazio ou nulo");
+        }        
+        if(endereco.getComplemento()== null || endereco.getComplemento().equals("")){
+             throw new Exception("Complemento não pode ser vazio ou nulo");
+        } 
+        if(endereco.getEstado()== null || endereco.getEstado().equals("")){
+             throw new Exception("Estado não pode ser vazio ou nulo");
+        } 
+        if(endereco.getRua()== null || endereco.getRua().equals("")){
+             throw new Exception("A rua não pode ser vazio ou nulo");
+        } 
+        if(endereco.getTipo()== null || endereco.getTipo().equals("")){
+             throw new Exception("O tipo de endereço não pode ser vazio ou nulo");
+        } 
+
+        return true;
+    }   
 
     @FXML
     private void alterarCadastro(ActionEvent event) throws Exception {
