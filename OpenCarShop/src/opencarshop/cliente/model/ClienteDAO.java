@@ -1,5 +1,6 @@
 package opencarshop.cliente.model;
 
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -13,13 +14,14 @@ import opencarshop.Endereco;
 import opencarshop.cliente.model.Cliente;
 import opencarshop.util.ConexaoMySQL;
 import opencarshop.util.Utilidades;
+import java.io.*;
 
 public class ClienteDAO {
 
     private Connection conn;
     private final ConexaoMySQL c = new ConexaoMySQL();
 
-    public boolean cadastraCliente(Cliente cli, Endereco end) {
+    public void cadastraCliente(Cliente cli, Endereco end) throws Exception {
         Connection conn = null;
 
         PreparedStatement stmtEnd = null;
@@ -58,10 +60,9 @@ public class ClienteDAO {
             conn.commit();
 
             conn.close();
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+        }    
+        catch (MySQLIntegrityConstraintViolationException exceptions) {
+            throw new MySQLIntegrityConstraintViolationException(exceptions.getSQLState());
         }
     } 
     

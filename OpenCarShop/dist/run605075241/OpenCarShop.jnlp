@@ -1,25 +1,3 @@
-<<<<<<< HEAD
-<?xml version="1.0" encoding="utf-8"?>
-<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="OpenCarShop.jnlp">
-  <information>
-    <title>OpenCarShop</title>
-    <vendor>lucas</vendor>
-    <description>null</description>
-    <offline-allowed/>
-  </information>
-  <resources>
-    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="OpenCarShop.jar" size="826675" download="eager" />
-    <jar href="lib\controlsfx-8.40.9.jar" size="1016589" download="eager" />
-    <jar href="lib\mysql-connector-java-5.1.23-bin.jar" size="834126" download="eager" />
-  </resources>
-  <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="OpenCarShop" >
-    <param name="requiredFXVersion" value="8.0+"/>
-  </applet-desc>
-  <jfx:javafx-desc  width="800" height="600" main-class="opencarshop.OpenCarShop"  name="OpenCarShop" />
-  <update check="always"/>
-</jnlp>
-=======
 <?xml version="1.0" encoding="utf-8"?>
 <jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="OpenCarShop.jnlp">
   <information>
@@ -41,4 +19,3 @@
   <jfx:javafx-desc  width="800" height="600" main-class="opencarshop.OpenCarShop"  name="OpenCarShop" />
   <update check="always"/>
 </jnlp>
->>>>>>> origin/alexandre

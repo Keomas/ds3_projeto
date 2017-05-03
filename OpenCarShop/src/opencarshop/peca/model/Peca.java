@@ -9,15 +9,13 @@ public class Peca implements Serializable {
     private double valor;
     private int quantidade;
     private boolean ativa;
-
-    public Peca() {
-
-    }
-
-    public Peca(int id, String nome, double preco, int quantidade, boolean ativa) {
+    
+    public Peca(){}
+    
+    public Peca(int id, String nome, double valor, int quantidade, boolean ativa) {
         this.id = id;
         this.nome = nome;
-        this.valor = preco;
+        this.valor = valor;
         this.quantidade = quantidade;
         this.ativa = ativa;
     }

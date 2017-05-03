@@ -1,5 +1,6 @@
 package opencarshop.cliente.controller;
 
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -82,36 +83,42 @@ public class ClienteController implements Initializable {
     private Label confirmaAlteracao;
 
     @FXML
-    private void cadastrar(ActionEvent event) throws ParseException {
+    private void cadastrar(ActionEvent event) throws ParseException, Exception {
         //cb_cargoCadastro.setItems(cargos);
         Cliente cli = new Cliente();
         Endereco end = new Endereco();
         ClienteDAO c = new ClienteDAO();
+        try{
+            // OBJETO FUNCIONARIO
+            cli.setCpf(tf_cpfCadastro.getText());
+            cli.setNome(tf_nomeCadastro.getText());
+            cli.setDataNascimento(dp_dataNascimentoCadastro.getValue());
+            cli.setEmail(tf_emailCadastro.getText());
+            cli.setTelefone1(tf_telefone1Cadastro.getText());
+            cli.setTelefone2(tf_telefone2Cadastro.getText());
+            cli.setAtivo(true);
 
-        // OBJETO FUNCIONARIO
-        cli.setCpf(tf_cpfCadastro.getText());
-        cli.setNome(tf_nomeCadastro.getText());
-        cli.setDataNascimento(dp_dataNascimentoCadastro.getValue());
-        cli.setEmail(tf_emailCadastro.getText());
-        cli.setTelefone1(tf_telefone1Cadastro.getText());
-        cli.setTelefone2(tf_telefone2Cadastro.getText());
-        cli.setAtivo(true);
-
-        // OBJETO ENDERECO
-        end.setCEP(tf_cepCadastro.getText());
-        end.setEstado(tf_estadoCadastro.getText());
-        end.setCidade(tf_cidadeCadastro.getText());
-        end.setBairro(tf_bairroCadastro.getText());
-        end.setRua(tf_ruaCadastro.getText());
-        end.setNumero(Integer.parseInt(tf_numeroCadastro.getText()));
-        end.setComplemento(tf_complementoCadastro.getText());
-        end.setTipo(cb_tipoCadastro.getValue().charAt(0));
-
-        if (c.cadastraCliente(cli, end)) {
-            resultadoCadastro.setText("Cadastrado com sucesso!!");
-        } else {
-            resultadoCadastro.setText("Erro ao cadastrar!! Tente novamente.");
+            // OBJETO ENDERECO
+            end.setCEP(tf_cepCadastro.getText());
+            end.setEstado(tf_estadoCadastro.getText());
+            end.setCidade(tf_cidadeCadastro.getText());
+            end.setBairro(tf_bairroCadastro.getText());
+            end.setRua(tf_ruaCadastro.getText());
+            end.setNumero(Integer.parseInt(tf_numeroCadastro.getText()));
+            end.setComplemento(tf_complementoCadastro.getText());
+            end.setTipo(cb_tipoCadastro.getValue().charAt(0));
+            c.cadastraCliente(cli, end);
+            resultadoCadastro.setText("Cadastrado com sucesso");
         }
+        catch(NumberFormatException exception1){
+            resultadoCadastro.setText(exception1.getMessage());
+        }
+        catch(NullPointerException exception2){
+            resultadoCadastro.setText(exception2.getMessage());
+        }
+        catch(Exception e ){
+           resultadoCadastro.setText(e.getMessage());
+        }      
     }
 
     @FXML
@@ -170,6 +177,6 @@ public class ClienteController implements Initializable {
         } catch (Exception ex) {
             //Logger.getLogger(ClienteController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+    } 
 
 }

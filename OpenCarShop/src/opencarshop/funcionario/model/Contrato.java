@@ -9,7 +9,19 @@ public class Contrato {
     private Double salario;
     private LocalDate dataInicio;
     private LocalDate dataTermino;
-
+    
+    public Contrato(){}
+    
+    public Contrato(Character cargo, 
+                    double salario, 
+                    LocalDate dataInicio, 
+                    LocalDate dataTermino){
+        this.cargo = cargo;
+        this.salario = salario;
+        this.dataInicio = dataInicio;
+        this.dataTermino = dataTermino;
+    }
+    
     public Character getCargo() {
         return cargo;
     }

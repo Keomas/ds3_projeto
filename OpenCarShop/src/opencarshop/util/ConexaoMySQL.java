@@ -8,7 +8,7 @@ public class ConexaoMySQL {
     //Nome do usuário do mysql
     private final String USERNAME = "root";
     //Senha do mysql
-    private final String PASSWORD = "keomas123456";
+    private final String PASSWORD = "root";
     //Dados de caminho, porta e nome da base de dados que irá ser feita a conexão
     private final String DATABASE_URL = "jdbc:mysql://localhost/opencarshop";
 
