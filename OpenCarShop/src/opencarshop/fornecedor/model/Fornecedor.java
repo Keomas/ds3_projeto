@@ -9,6 +9,26 @@ public class Fornecedor {
     private String telefone2;
     private String descricao;
     private Boolean ativo;
+    
+    public Fornecedor(){}
+    
+    public Fornecedor(     
+            String cnpj,
+            String razaoSocial,
+            String email,
+            String telefone1,
+            String telefone2,
+            String descricao,
+            Boolean ativo)
+    {
+        this.cnpj = cnpj;
+        this.razaoSocial = razaoSocial;
+        this.email = email;
+        this.telefone1 = telefone1;
+        this.telefone2 = telefone2;
+        this.descricao = descricao;
+        this.ativo = ativo;
+    }
 
     public Boolean getAtivo() {
         return ativo;
