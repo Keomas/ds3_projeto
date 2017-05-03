@@ -55,10 +55,12 @@
                         </GridPane>
                         <Group AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
                             <children>
+                                <Label fx:id="resultadoCadastro" alignment="CENTER" contentDisplay="CENTER" layoutX="16.0" layoutY="384.0" prefHeight="17.0" prefWidth="346.0" textAlignment="CENTER" />
                                 <Button fx:id="buttonInserir" layoutX="97.0" layoutY="293.0" mnemonicParsing="false" onAction="#handleButtonInserir" prefHeight="25.0" prefWidth="64.0" text="Inserir" />
                                 <Button fx:id="buttonAlterar" layoutX="169.0" layoutY="293.0" mnemonicParsing="false" onAction="#handleButtonAlterar" prefHeight="25.0" prefWidth="64.0" text="Alterar" />
                                 <Button fx:id="buttonInativar" layoutX="240.0" layoutY="293.0" mnemonicParsing="false" onAction="#handleButtonInativar" text="Inativar" />
                             </children>
+                            
                         </Group>
                     </children>
                 </AnchorPane>

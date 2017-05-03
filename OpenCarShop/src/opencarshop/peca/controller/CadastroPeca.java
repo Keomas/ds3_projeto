@@ -43,6 +43,8 @@ public class CadastroPeca implements Initializable {
     @FXML
     private TableColumn<Peca, String> tableColumnPecaQuantidade;
     @FXML
+    private Label resultadoCadastro;
+    @FXML
     private Label labelPecaCodigo;
     @FXML
     private Label labelPecaNome;
@@ -56,7 +58,7 @@ public class CadastroPeca implements Initializable {
     private Button buttonAlterar;
     @FXML
     private Button buttonInativar;
-
+    
     private List<Peca> listPecas;
     private ObservableList<Peca> observableListPecas;
 
@@ -102,12 +104,18 @@ public class CadastroPeca implements Initializable {
 
     @FXML
     public void handleButtonInserir() throws IOException {
-        Peca peca = new Peca();
-        boolean buttonConfirmarClicked = showCadastroPecaDialog(peca);
-        System.out.println(peca.getNome());
-        if (buttonConfirmarClicked) {
-            pecaDAO.inserir(peca);
-            carregarTableViewPeca();
+        try{
+            Peca peca = new Peca();
+            boolean buttonConfirmarClicked = showCadastroPecaDialog(peca);
+            if (buttonConfirmarClicked) {
+                validaPeca(peca);
+                pecaDAO.inserir(peca);
+                carregarTableViewPeca();
+                System.out.println("lol");
+            }
+        }
+        catch(Exception exception){
+            resultadoCadastro.setText(exception.getMessage());
         }
     }
 
@@ -161,6 +169,22 @@ public class CadastroPeca implements Initializable {
 
         return controller.isButtonConfirmarClicked();
 
+    }
+    
+    public boolean validaPeca(Peca peca) throws Exception{
+        if(peca == null){
+            throw new Exception("Peca nula");
+        }
+        if(peca == null || peca.getNome().equals("")){
+            throw new Exception("Nome nao pode ser nulo ou vazio");
+        }
+        if(peca.getQuantidade() < 0){
+            throw new Exception("Quantidade nao pode ser negativa");
+        }
+        if(peca.getValor() < 0){
+            throw new Exception("Valor nao pode ser negativo");
+        }
+        return true;
     }
 
 }
